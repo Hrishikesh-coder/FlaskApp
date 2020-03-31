@@ -1,0 +1,241 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <style type="text/css">
+
+
+
+            body,html{
+              background: #fafafa;
+              color: #333333;
+              height : 100%;
+              margin-top: 0rem;
+            }
+
+            h2, h3, h4, h5, h6 {
+              color: #baff50;
+              text-align:center;
+            }
+            h1{
+                text-align:center;
+                border-style:solid;
+                border-width:10px;
+                border-color:#4CAF50;
+                padding:7px;
+                color:#9999ff;
+            }
+            a{
+                color:#444444;
+            }
+
+            .jumbotron{
+
+            margin-top:20px;
+            background-image:url("https://cdn.vox-cdn.com/thumbor/kLhMHqhPRHYV2SPs-qOgIw_uO6I=/0x0:1920x1080/1200x800/filters:focal(807x387:1113x693)/cdn.vox-cdn.com/uploads/chorus_image/image/63304028/surprise_marvel_releases_a_new_full_trailer_and_poster_for_avengers_endgame_social.0.jpg");
+            background-size:cover;
+            color:white;
+
+        }
+
+            .bg-steel {
+              background-color: #5f788a;
+            }
+
+            .site-header .navbar-nav .nav-link {
+              color: #cbd5db;
+            }
+
+            .site-header .navbar-nav .nav-link:hover {
+              color: #fafafa;
+            }
+
+            .site-header .navbar-nav .nav-link.active {
+              font-weight: 500;
+            }
+
+            .content-section {
+              background: #fafafa;
+              padding: 10px 20px;
+              border: 1px solid #dddddd;
+              border-radius: 3px;
+              margin-bottom: 20px;
+            }
+
+            .article-title {
+              color: #444444;
+            }
+
+            a.article-title:hover {
+              color: #428bca;
+              text-decoration: none;
+            }
+
+            .article-content {
+              white-space: pre-line;
+            }
+
+            .article-img {
+              height: 65px;
+              width: 65px;
+              margin-right: 16px;
+            }
+
+            .article-metadata {
+              padding-bottom: 1px;
+              margin-bottom: 4px;
+              border-bottom: 1px solid #e3e3e3
+            }
+
+            .article-metadata a:hover {
+              color: #333;
+              text-decoration: none;
+            }
+
+            .article-svg {
+              width: 25px;
+              height: 25px;
+              vertical-align: middle;
+            }
+
+            .account-img {
+              height: 125px;
+              width: 125px;
+              margin-right: 20px;
+              margin-bottom: 16px;
+            }
+
+            .account-heading {
+              font-size: 2.5rem;
+            }
+    </style>
+
+
+
+
+
+
+
+
+    {% if title %}
+        <title>A Blog For All - {{ title }}</title>
+    {% else %}
+        <title>A Blog For All</title>
+    {% endif %}
+</head>
+<body>
+    <header class="site-header">
+      <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top">
+        <div class="container">
+            <nav class="navbar navbar-light bg-light">
+                <a class="navbar-brand" href="{{ url_for('about') }}">
+                    <img src="/static/profile_pics/logo2.png" width="30" height="30" class="d-inline-block align-top" alt="">
+                        A Blog For All
+                </a>
+            </nav>
+
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarToggle">
+            <div class="navbar-nav mr-auto">
+
+                     <a class="nav-item nav-link" href="{{ url_for('home') }}" style="color:rgb(0,0,0)">Home</a></li>
+                     <a class="nav-item nav-link" href="{{ url_for('about') }}"  style="color:rgb(0,0,0)">About</a></li>
+                     <a class="nav-item nav-link" href="{{ url_for('credits')}}" style="color:rgb(0,0,0)">Credits</a></li>
+                     <a class="nav-item nav-link" href="{{ url_for('aboutme')}}" style="color:rgb(0,0,0)">About Me</a></li>
+
+            </div>
+            <!-- Navbar Right Side -->
+            <div class="navbar-nav">
+              {% if current_user.is_authenticated %}
+                <a class="btn btn-success" href="{{ url_for('new_post') }}" role="button">New Post</a>
+                <a class="btn btn-warning" href="{{ url_for('account') }}" role="button">Account</a>
+                <a class="btn btn-dark" href="{{ url_for('logout') }}" role="button">Logout</a>
+              {% else %}
+                <a class="btn btn-info" href="{{ url_for('login') }}" role="button">Login</a>
+                <a class="btn btn-danger" href="{{ url_for('register') }}" role="button">Register</a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <main role="main" class="container">
+      <div class="row">
+        <div class="col-md-8">
+          {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+              {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">
+                  {{ message }}
+                </div>
+              {% endfor %}
+            {% endif %}
+          {% endwith %}
+          {% block content %}{% endblock %}
+        </div>
+
+      </div>
+    </main>
+
+        <div class="jumbotron">
+          <h1 class="display-4">A Blog For All!</h1>
+          <p class="lead",><center><font size="5">Give wings to your imagination !! Just like the Avengers !! Welcome to a Blog For All!!</font> </center></p>
+          <hr class="my-4">
+          <p text="yellow">This is a Blog where anyone can post anything!!</p>
+          <p class="lead">
+            <a class="btn btn-outline-primary btn-lg" href="{{url_for('about')}}" role="button">Know more !!</a>
+            <a class="btn btn-outline-danger btn-lg" href="{{url_for('register')}}" role="button">Register today!</a>
+          </p>
+        </div>
+
+
+
+{% for post in posts.items %}
+        <article class="media content-section">
+          <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2" href="{{ url_for('user_posts', username=post.author.username) }}">{{ post.author.username }}</a>
+              <small class="text-muted">{{ post.date_posted.strftime('%Y-%m-%d') }}</small>
+            </div>
+            <h2><a class="article-title" href="{{ url_for('post', post_id=post.id) }}">{{ post.title }}</a></h2>
+            <p class="article-content">{{ post.content }}</p>
+          </div>
+        </article>
+    {% endfor %}
+    {% for page_num in posts.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+      {% if page_num %}
+        {% if posts.page == page_num %}
+          <a class="btn btn-dark mb-4" href="{{ url_for('home', page=page_num) }}">{{ page_num }}</a>
+        {% else %}
+          <a class="btn btn-outline-dark mb-4" href="{{ url_for('home', page=page_num) }}">{{ page_num }}</a>
+        {% endif %}
+      {% else %}
+        ...
+      {% endif %}
+
+    {% endfor %}
+
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>
+
+
+
+
